@@ -32,14 +32,14 @@
       <p class="auth-form__eyebrow">Acceso exclusivo</p>
       <h2 class="auth-form__title">Crear Cuenta</h2>
 
-      <!-- 🔴 ERROR GENERAL -->
+      
       <?php if (!empty($_SESSION['errors']['general'])): ?>
         <div class="alert alert-error">
           <?= htmlspecialchars($_SESSION['errors']['general']) ?>
         </div>
       <?php endif; ?>
 
-      <!-- 🟢 MENSAJE ÉXITO -->
+     
       <?php if (!empty($_SESSION['success'])): ?>
         <div class="alert alert-success">
           <?= htmlspecialchars($_SESSION['success']) ?>
@@ -48,7 +48,7 @@
 
       <form method="POST" action="<?= SITE_URL ?>index.php?action=registerUser">
 
-        <!-- DOCUMENTO -->
+        
         <div class="form-row">
           <div class="form-group">
             <label>Tipo Documento</label>

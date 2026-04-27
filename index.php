@@ -27,7 +27,7 @@ switch ($action) {
         break;
 
     case 'getFormRegisterUser':
-        require 'views/auth/register.php';
+        $authController->getFormRegisterUser();
         break;
 
     case 'loginUser':
@@ -67,6 +67,9 @@ switch ($action) {
         $reservaController->eliminarReserva();
         break;
 
+    case 'getRoomsByType':
+        $reservaController->getRoomsByType();
+        break;
     
     default:
         require 'views/home.php';

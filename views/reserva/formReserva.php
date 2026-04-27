@@ -13,49 +13,45 @@
 
     <form action="<?= SITE_URL ?>index.php?action=guardarReserva" method="POST">
 
+        <!-- 📅 FECHA INICIO -->
         <div class="form-group">
             <label>Fecha Inicio</label>
-            <input type="date" name="fecha_inicio" required>
+            <input type="date" name="fecha_inicio" id="fecha_inicio" required>
         </div>
 
+        <!-- 📅 FECHA FINAL -->
         <div class="form-group">
             <label>Fecha Final</label>
-            <input type="date" name="fecha_final" required>
+            <input type="date" name="fecha_final" id="fecha_final" required>
         </div>
 
+        <!-- 🏨 CATEGORÍA -->
         <div class="form-group">
-           <label>Habitación</label>
+            <label>Categoría</label>
+            <select id="categoria" required>
+                <option value="">Seleccione</option>
 
-<select name="habitacion_id" id="habitacion" required>
+                <?php 
+                $categorias = [];
+                foreach ($_SESSION['habitaciones'] as $hab) {
+                    $categorias[$hab['categoria_id']] = $hab['categoria'];
+                }
 
-    <option value="">Seleccionar habitación</option>
-
-    <?php if (isset($_SESSION['habitaciones'])): ?>
-        <?php foreach ($_SESSION['habitaciones'] as $hab): ?>
-            <option 
-                value="<?= $hab['id'] ?>"
-                data-descripcion="<?= htmlspecialchars($hab['descripcion']) ?>"
-                data-precio="<?= $hab['precio'] ?>"
-                data-estado="<?= htmlspecialchars($hab['estado']) ?>"
-            >
-                <?= htmlspecialchars($hab['categoria']) ?> -
-                <?= $hab['numero_camas'] ?> camas -
-                $<?= $hab['precio'] ?> -
-                <?= htmlspecialchars($hab['estado']) ?> -
-                <?= substr(htmlspecialchars($hab['descripcion']), 0, 30) ?>...
-            </option>
-        <?php endforeach; ?>
-    <?php endif; ?>
-
-</select>
+                foreach ($categorias as $id => $nombre): ?>
+                    <option value="<?= $id ?>"><?= $nombre ?></option>
+                <?php endforeach; ?>
             </select>
-            <div id="infoHabitacion" style="margin-top:15px; padding:10px; border:1px solid #ccc; border-radius:5px;">
-            <p><strong>Descripción:</strong> <span id="desc">-</span></p>
-            <p><strong>Precio:</strong> $<span id="precio">-</span></p>
-            <p><strong>Estado:</strong> <span id="estado">-</span></p>
-</div>
         </div>
 
+        <!-- 🚪 HABITACIONES -->
+        <div class="form-group">
+            <label>Número de habitación</label>
+            <select name="habitacion_id" id="habitacion" required>
+                <option value="">Seleccione una habitación</option>
+            </select>
+        </div>
+
+        <!-- BOTÓN -->
         <button type="submit">Reservar</button>
 
     </form>
@@ -64,16 +60,76 @@
 
 </div>
 
-</body>
+
 <script>
-document.getElementById("habitacion").addEventListener("change", function() {
+const categoria = document.getElementById("categoria");
+const habitacion = document.getElementById("habitacion");
 
-    let selected = this.options[this.selectedIndex];
+categoria.addEventListener("change", async () => {
 
-    document.getElementById("desc").textContent = selected.dataset.descripcion || "-";
-    document.getElementById("precio").textContent = selected.dataset.precio || "-";
-    document.getElementById("estado").textContent = selected.dataset.estado || "-";
+    if (!categoria.value) {
+        habitacion.innerHTML = `<option value="">Seleccione una habitación</option>`;
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `index.php?action=getRoomsByType&categoria_id=${categoria.value}`
+        );
+
+        const result = await response.json();
+
+        habitacion.innerHTML = `<option value="">Seleccione una habitación</option>`;
+
+        if (result.ok && result.data.length > 0) {
+            result.data.forEach(hab => {
+                habitacion.innerHTML += `
+                    <option value="${hab.id}">
+                        Habitación ${hab.numero}
+                    </option>
+                `;
+            });
+        } else {
+            habitacion.innerHTML += `<option>No disponibles</option>`;
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});
+
+
+// 🔒 VALIDAR FECHA
+const fechaInicio = document.getElementById("fecha_inicio");
+const fechaFinal = document.getElementById("fecha_final");
+const form = document.querySelector("form");
+
+// 🔒 No permitir fechas pasadas
+const hoy = new Date().toISOString().split("T")[0];
+fechaInicio.min = hoy;
+fechaFinal.min = hoy;
+
+// 🔒 Fecha final no puede ser menor que inicio
+fechaInicio.addEventListener("change", () => {
+    fechaFinal.min = fechaInicio.value;
+});
+
+// 🔒 Validación al enviar
+form.addEventListener("submit", (e) => {
+
+    if (!fechaInicio.value || !fechaFinal.value) {
+        alert("Debes seleccionar ambas fechas");
+        e.preventDefault();
+        return;
+    }
+
+    if (fechaFinal.value <= fechaInicio.value) {
+        alert("La fecha final debe ser mayor a la fecha de inicio");
+        e.preventDefault();
+        return;
+    }
 
 });
 </script>
+</body>
 </html>

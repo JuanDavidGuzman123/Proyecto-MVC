@@ -9,22 +9,24 @@ class Reserva {
         $this->conexion->conectar();
     }
 
-    public function obtenerHabitaciones() {
+   public function obtenerHabitaciones() {
 
-        $sql = "SELECT 
-                    h.id,
-                    h.numero_camas,
-                    h.descripcion,
-                    h.precio,
-                    e.nombre AS estado,
-                    c.nombre AS categoria
-                FROM habitaciones h
-                INNER JOIN categorias c ON h.categoria_id = c.id
-                INNER JOIN estado e ON h.estado_id = e.id";
+    $sql = "SELECT 
+                h.id,
+                h.numero,
+                h.numero_camas,
+                h.descripcion,
+                h.precio,
+                h.categoria_id,
+                e.nombre AS estado,
+                c.nombre AS categoria
+            FROM habitaciones h
+            INNER JOIN categorias c ON h.categoria_id = c.id
+            INNER JOIN estado e ON h.estado_id = e.id";
 
-        $this->conexion->query($sql);
-        return $this->conexion->getResult()->fetch_all(MYSQLI_ASSOC);
-    }
+    $this->conexion->query($sql);
+    return $this->conexion->getResult()->fetch_all(MYSQLI_ASSOC);
+}
 
     public function guardar($datos, $user_id) {
 
@@ -70,5 +72,18 @@ class Reserva {
                 WHERE id = '{$datos['id']}'";
 
         $this->conexion->query($sql);
+
+        
     }
+
+    public function obtenerHabitacionesPorCategoria($categoria_id) {
+
+    $sql = "SELECT id, numero 
+            FROM habitaciones 
+            WHERE categoria_id = '$categoria_id'";
+
+    $this->conexion->query($sql);
+
+    return $this->conexion->getResult()->fetch_all(MYSQLI_ASSOC);
+}
 }

@@ -1,59 +1,133 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f9;
+/* RESET */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
+/* BODY */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f1e6, #fdfbf7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* CONTENEDOR */
 .container {
-    width: 400px;
-    margin: 60px auto;
+    width: 420px;
     background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    animation: fadeIn 0.6s ease;
 }
 
+/* TITULO */
 h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: #333;
 }
 
+/* GRUPOS */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
+/* LABEL */
 label {
-    display: block;
+    font-weight: 600;
+    color: #555;
     margin-bottom: 5px;
-    font-weight: bold;
+    display: block;
 }
 
-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
+/* INPUT Y SELECT */
+input, select {
     width: 100%;
     padding: 10px;
-    background: #2c7be5;
-    color: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+/* EFECTO FOCUS */
+input:focus, select:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 5px rgba(212,175,55,0.4);
+    outline: none;
+}
+
+/* BOTON */
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #d4af37, #b8962e);
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
+/* HOVER BOTON */
 button:hover {
-    background: #1a5edb;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
 }
 
+/* SELECT BONITO */
+select {
+    appearance: none;
+    background: #fff url("data:image/svg+xml;utf8,<svg fill='%23999' height='20' viewBox='0 0 24 24' width='20'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 10px center;
+    background-size: 15px;
+}
+
+/* INFO BOX */
+#infoHabitacion {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f9f6ef;
+    border: 1px solid #eee;
+    transition: 0.3s;
+}
+
+/* TEXTO INFO */
+#infoHabitacion p {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* VOLVER */
 .back {
     display: block;
-    margin-top: 15px;
     text-align: center;
+    margin-top: 15px;
+    color: #888;
     text-decoration: none;
-    color: #333;
+    transition: 0.3s;
+}
+
+.back:hover {
+    color: #d4af37;
+}
+
+/* ANIMACION */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

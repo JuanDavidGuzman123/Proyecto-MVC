@@ -11,7 +11,7 @@ $user = $_SESSION['user'];
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard | Reservas</title>
+    <title> Reservas</title>
     <link rel="stylesheet" href="<?= SITE_URL ?>views/css/interfaz.css">
 </head>
 <body>

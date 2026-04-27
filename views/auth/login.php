@@ -35,14 +35,14 @@
       <p class="auth-form__eyebrow">Bienvenido de nuevo</p>
       <h2 class="auth-form__title">Iniciar Sesión</h2>
 
-      <!-- 🔴 ERROR GENERAL -->
+     
       <?php if (!empty($_SESSION['errors']['general'])): ?>
         <div class="alert alert-error">
           <?= htmlspecialchars($_SESSION['errors']['general']) ?>
         </div>
       <?php endif; ?>
 
-      <!-- 🟢 MENSAJE DE ÉXITO -->
+      
       <?php if (!empty($_SESSION['success'])): ?>
         <div class="alert alert-success">
           <?= htmlspecialchars($_SESSION['success']) ?>
@@ -72,7 +72,7 @@
       </form>
 
       <?php 
-        // 🔥 LIMPIAR MENSAJES DESPUÉS DE MOSTRARLOS
+        
         unset($_SESSION['errors'], $_SESSION['old'], $_SESSION['success']); 
       ?>
 

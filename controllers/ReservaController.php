@@ -15,15 +15,32 @@ class ReservaController {
         include 'views/reserva/formReserva.php';
     }
 
-    public function guardarReserva() {
+  public function guardarReserva() {
 
-        $reserva = new Reserva();
-        $user_id = $_SESSION['user']['id'];
+    $fecha_inicio = $_POST['fecha_inicio'];
+    $fecha_final  = $_POST['fecha_final'];
 
-        $reserva->guardar($_POST, $user_id);
-
-        header('Location: index.php?action=interfaz');
+    // 🔥 NO IGUALES NI MENORES
+    if ($fecha_final <= $fecha_inicio) {
+        $_SESSION['error'] = "La fecha final debe ser mayor a la fecha de inicio";
+        header('Location: index.php?action=formReserva');
+        exit;
     }
+
+    // 🔒 No fechas pasadas
+    if ($fecha_inicio < date('Y-m-d')) {
+        $_SESSION['error'] = "No puedes reservar fechas pasadas";
+        header('Location: index.php?action=formReserva');
+        exit;
+    }
+
+    $reserva = new Reserva();
+    $user_id = $_SESSION['user']['id'];
+
+    $reserva->guardar($_POST, $user_id);
+
+    header('Location: index.php?action=interfaz');
+}
 
     public function interfaz() {
 
@@ -63,4 +80,21 @@ class ReservaController {
 
         header('Location: index.php?action=interfaz');
     }
+
+   public function getRoomsByType() {
+
+    header('Content-Type: application/json');
+
+    $categoria_id = $_GET['categoria_id'] ?? 0;
+
+    $reserva = new Reserva();
+    $data = $reserva->obtenerHabitacionesPorCategoria($categoria_id);
+
+    echo json_encode([
+        "ok" => true,
+        "data" => $data
+    ]);
+}
+
+
 }
