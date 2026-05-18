@@ -10,7 +10,7 @@
 
 <div class="auth-layout">
 
-  <!-- PANEL -->
+  
   <div class="auth-panel">
     <p class="auth-panel__quote">
       "Un destino donde cada detalle ha sido pensado para usted"
@@ -18,7 +18,7 @@
     <p class="auth-panel__sub"><?= SITE_NAME ?> · Desde 2012</p>
   </div>
 
-  <!-- FORM -->
+  
   <div class="auth-form-wrap">
     <div class="auth-form">
 
@@ -81,7 +81,7 @@
           </div>
         </div>
 
-        <!-- NOMBRE -->
+        
         <div class="form-row">
           <div class="form-group">
             <label>Nombre</label>
@@ -104,7 +104,7 @@
           </div>
         </div>
 
-        <!-- TELEFONO -->
+      
         <div class="form-group">
           <label>Teléfono</label>
           <input type="text" name="phone"
@@ -115,7 +115,7 @@
           <?php endif; ?>
         </div>
 
-        <!-- EMAIL -->
+      
         <div class="form-group">
           <label>Correo</label>
           <input type="email" name="email"
@@ -126,7 +126,7 @@
           <?php endif; ?>
         </div>
 
-        <!-- PASSWORD -->
+      
         <div class="form-group">
           <label>Contraseña</label>
           <input type="password" name="password" required>
@@ -142,7 +142,7 @@
       </form>
 
       <?php 
-        // 🔥 limpiar al final (MUY IMPORTANTE)
+        
         unset($_SESSION['errors'], $_SESSION['old'], $_SESSION['success']); 
       ?>
 

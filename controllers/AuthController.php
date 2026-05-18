@@ -1,4 +1,5 @@
 <?php
+require_once 'controllers/correoController.php';
 
 class AuthController {
 
@@ -65,6 +66,7 @@ class AuthController {
             exit;
         }
 
+
     
         $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT);
 
@@ -110,6 +112,8 @@ class AuthController {
             exit;
         }
     }
+
+    
 
     
     public function logoutUser() {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Reservar Habitación</title>
-    <link rel="stylesheet" href="<?= SITE_URL ?>views/css/reserva.css">
+   <link rel="stylesheet" href="<?= SITE_URL ?>views/css/reserva.css">
 </head>
 <body>
 
@@ -13,37 +13,49 @@
 
     <form action="<?= SITE_URL ?>index.php?action=guardarReserva" method="POST">
 
-        <!-- 📅 FECHA INICIO -->
         <div class="form-group">
             <label>Fecha Inicio</label>
             <input type="date" name="fecha_inicio" id="fecha_inicio" required>
         </div>
 
-        <!-- 📅 FECHA FINAL -->
+        
         <div class="form-group">
             <label>Fecha Final</label>
             <input type="date" name="fecha_final" id="fecha_final" required>
         </div>
 
-        <!-- 🏨 CATEGORÍA -->
-        <div class="form-group">
-            <label>Categoría</label>
-            <select id="categoria" required>
-                <option value="">Seleccione</option>
-
-                <?php 
-                $categorias = [];
-                foreach ($_SESSION['habitaciones'] as $hab) {
-                    $categorias[$hab['categoria_id']] = $hab['categoria'];
-                }
-
-                foreach ($categorias as $id => $nombre): ?>
-                    <option value="<?= $id ?>"><?= $nombre ?></option>
-                <?php endforeach; ?>
-            </select>
+        
+    <div class="form-group">
+         <label>Número de personas</label>
+        <input type="number" 
+           name="n_personas" 
+           id="n_personas"
+           min="1" 
+           max="4" 
+           placeholder="Ej: 2"
+           required>
         </div>
 
-        <!-- 🚪 HABITACIONES -->
+    
+      <div class="form-group">
+    <label>Categoría</label>
+    <select id="categoria" required>
+        <option value="">Seleccione</option>
+
+        <?php 
+    
+        if (isset($_SESSION['categorias'])):
+            foreach ($_SESSION['categorias'] as $cat): ?>
+                <option value="<?= $cat['id'] ?>">
+                    <?= htmlspecialchars($cat['nombre']) ?>
+                </option>
+            <?php endforeach;
+        endif;
+        ?>
+
+    </select>
+</div>
+    
         <div class="form-group">
             <label>Número de habitación</label>
             <select name="habitacion_id" id="habitacion" required>
@@ -51,7 +63,12 @@
             </select>
         </div>
 
-        <!-- BOTÓN -->
+        <div class="form-group">
+    <label>Total a pagar</label>
+    <input type="text" id="total" readonly placeholder="$0">
+</div>
+
+        
         <button type="submit">Reservar</button>
 
     </form>
@@ -60,76 +77,6 @@
 
 </div>
 
-
-<script>
-const categoria = document.getElementById("categoria");
-const habitacion = document.getElementById("habitacion");
-
-categoria.addEventListener("change", async () => {
-
-    if (!categoria.value) {
-        habitacion.innerHTML = `<option value="">Seleccione una habitación</option>`;
-        return;
-    }
-
-    try {
-        const response = await fetch(
-            `index.php?action=getRoomsByType&categoria_id=${categoria.value}`
-        );
-
-        const result = await response.json();
-
-        habitacion.innerHTML = `<option value="">Seleccione una habitación</option>`;
-
-        if (result.ok && result.data.length > 0) {
-            result.data.forEach(hab => {
-                habitacion.innerHTML += `
-                    <option value="${hab.id}">
-                        Habitación ${hab.numero}
-                    </option>
-                `;
-            });
-        } else {
-            habitacion.innerHTML += `<option>No disponibles</option>`;
-        }
-
-    } catch (error) {
-        console.error("Error:", error);
-    }
-});
-
-
-// 🔒 VALIDAR FECHA
-const fechaInicio = document.getElementById("fecha_inicio");
-const fechaFinal = document.getElementById("fecha_final");
-const form = document.querySelector("form");
-
-// 🔒 No permitir fechas pasadas
-const hoy = new Date().toISOString().split("T")[0];
-fechaInicio.min = hoy;
-fechaFinal.min = hoy;
-
-// 🔒 Fecha final no puede ser menor que inicio
-fechaInicio.addEventListener("change", () => {
-    fechaFinal.min = fechaInicio.value;
-});
-
-// 🔒 Validación al enviar
-form.addEventListener("submit", (e) => {
-
-    if (!fechaInicio.value || !fechaFinal.value) {
-        alert("Debes seleccionar ambas fechas");
-        e.preventDefault();
-        return;
-    }
-
-    if (fechaFinal.value <= fechaInicio.value) {
-        alert("La fecha final debe ser mayor a la fecha de inicio");
-        e.preventDefault();
-        return;
-    }
-
-});
-</script>
+<script src="<?= SITE_URL ?>views/js/validacionReserva.js"></script>
 </body>
 </html>

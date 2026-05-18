@@ -45,8 +45,10 @@ body {
     color: white;
     font-weight: bold;
     transition: 0.3s;
+    display: inline-block;
 }
 
+/* BOTÓN NUEVA RESERVA */
 .btn-primary {
     background: #2e7d32;
 }
@@ -55,6 +57,7 @@ body {
     background: #1b5e20;
 }
 
+/* BOTÓN CERRAR SESIÓN */
 .btn-danger {
     background: #c62828;
 }
@@ -63,12 +66,52 @@ body {
     background: #8e0000;
 }
 
+/* BOTÓN EXCEL */
+.btn-success {
+    background: #28a745;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.btn-success:hover {
+    background: #1e7e34;
+}
+
 /* CARD */
 .card {
     background: white;
-    padding: 20px;
-    border-radius: 12px;
+    padding: 25px;
+    border-radius: 16px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+/* HEADER RESERVAS */
+.reservas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.reservas-header h2 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.sub {
+    color: #777;
+    margin-top: 5px;
+}
+
+/* CONTADOR */
+.contador {
+    background: #2e7d32;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 /* TABLA */
@@ -85,11 +128,12 @@ table {
 th {
     background: #2e7d32;
     color: white;
-    padding: 12px;
+    padding: 14px;
+    font-size: 15px;
 }
 
 td {
-    padding: 12px;
+    padding: 15px;
     border-bottom: 1px solid #eee;
     text-align: center;
 }
@@ -98,34 +142,128 @@ tr:hover {
     background: #f5f5f5;
 }
 
-/* BOTÓN PEQUEÑO */
-.btn-small {
-    padding: 6px 10px;
-    border-radius: 6px;
-    text-decoration: none;
+/* INFO HABITACION */
+.habitacion-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.habitacion-info strong {
+    font-size: 16px;
+}
+
+.habitacion-info small {
+    color: #666;
+}
+
+/* FECHAS */
+.fechas {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     font-size: 14px;
 }
 
+/* ESTADOS */
+.estado {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.estado-activa {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* ACCIONES */
+.acciones {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+/* BOTONES PEQUEÑOS */
+.btn-small {
+    padding: 7px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    color: white;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+/* ELIMINAR */
 .btn-delete {
     background: #e53935;
-    color: white;
 }
 
 .btn-delete:hover {
     background: #b71c1c;
 }
 
-/* VACÍO */
+/* EDITAR */
+.btn-edit {
+    background: #1976d2;
+}
+
+.btn-edit:hover {
+    background: #0d47a1;
+}
+
+/* PDF */
+.btn-pdf {
+    background: #ff0000;
+}
+
+.btn-pdf:hover {
+    background: #b30000;
+}
+
+/* MENSAJE VACÍO */
 .empty {
     text-align: center;
     color: #777;
     padding: 20px;
 }
-.btn-edit {
-    background: #1976d2;
-    color: white;
+
+/* CAJA VACÍA */
+.empty-box {
+    text-align: center;
+    padding: 50px 20px;
 }
 
-.btn-edit:hover {
-    background: #0d47a1;
+.empty-box h3 {
+    margin-bottom: 10px;
+    font-size: 26px;
+}
+
+.empty-box p {
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+    .header-card {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .reservas-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .acciones {
+        flex-direction: column;
+    }
+
 }

@@ -13,7 +13,7 @@ class Conexion {
         $password = '';
         $this->mySQLI = new mysqli($host, $user, $password, $db);
         if (mysqli_connect_error()) {
-            // Manejo simple de error de conexión, sin imprimir en vistas
+            
             throw new Exception('Error de conexión a la base de datos');
         }
         

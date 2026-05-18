@@ -6,22 +6,26 @@ require_once 'config/config.php';
 // controllers
 require_once 'controllers/AuthController.php';
 require_once 'controllers/ReservaController.php';
+require_once 'controllers/pdfController.php';
+require_once 'controllers/excelController.php';
+require_once 'controllers/correoController.php';
 
 // models
 require_once 'models/Conexion.php';
 require_once 'models/User.php';
 require_once 'models/Reserva.php';
-    
+
 // instancias
 $authController = new AuthController();
 $reservaController = new ReservaController();
+$pdfController = new PdfController();
+$excelController = new ExcelController();
 
-// acción
+// acciónes
 $action = $_GET['action'] ?? 'home';
 
 switch ($action) {
 
-    
     case 'getFormLoginUser':
         require 'views/auth/login.php';
         break;
@@ -42,7 +46,6 @@ switch ($action) {
         $authController->logoutUser();
         break;
 
-    
     case 'interfaz':
         $reservaController->interfaz();
         break;
@@ -70,7 +73,15 @@ switch ($action) {
     case 'getRoomsByType':
         $reservaController->getRoomsByType();
         break;
-    
+
+    case 'generarPDF':
+        $pdfController->generarPDF();
+        break;
+
+    case 'generarExcel':
+        $excelController->generarExcel();
+        break;
+
     default:
         require 'views/home.php';
         break;
