@@ -39,7 +39,9 @@ class AuthController {
 
         if (empty(trim($datos['email'] ?? ''))) {
             $errores['email'] = 'El email es requerido';
+
         } elseif (!filter_var($datos['email'], FILTER_VALIDATE_EMAIL)) {
+
             $errores['email'] = 'El email no es válido';
         }
 
@@ -48,6 +50,7 @@ class AuthController {
         }
 
         if (count($errores) > 0) {
+
             $_SESSION['errors'] = $errores;
             $_SESSION['old'] = $datos;
 
@@ -59,26 +62,44 @@ class AuthController {
 
         
         if ($user->validateUser($datos) > 0) {
-            $_SESSION['errors'] = ['general' => 'El usuario ya existe'];
+
+            $_SESSION['errors'] = [
+                'general' => 'El usuario ya existe'
+            ];
+
             $_SESSION['old'] = $datos;
 
             header('Location: index.php?action=getFormRegisterUser');
             exit;
         }
 
-
     
-        $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT);
+        $datos['password'] =
+        password_hash($datos['password'], PASSWORD_DEFAULT);
 
         $resultado = $user->registerUser($datos);
 
         if ($resultado > 0) {
-            $_SESSION['success'] = 'Usuario registrado correctamente';
+
+            
+            $correo = new CorreoController();
+
+            $correo->enviarBienvenida(
+                $datos['email'],
+                $datos['name']
+            );
+
+            $_SESSION['success'] =
+            'Usuario registrado correctamente';
 
             header('Location: index.php?action=getFormLoginUser');
             exit;
+
         } else {
-            $_SESSION['errors'] = ['general' => 'Error al registrar'];
+
+            $_SESSION['errors'] = [
+                'general' => 'Error al registrar'
+            ];
 
             header('Location: index.php?action=getFormRegisterUser');
             exit;
@@ -90,23 +111,35 @@ class AuthController {
 
         unset($_SESSION['errors'], $_SESSION['success']);
 
-        if (empty(trim($datos['email'] ?? '')) || empty($datos['password'] ?? '')) {
-            $_SESSION['errors'] = ['general' => 'Correo y contraseña requeridos'];
+        if (
+            empty(trim($datos['email'] ?? '')) ||
+            empty($datos['password'] ?? '')
+        ) {
+
+            $_SESSION['errors'] = [
+                'general' => 'Correo y contraseña requeridos'
+            ];
 
             header('Location: index.php?action=getFormLoginUser');
             exit;
         }
 
         $user = new User();
+
         $result = $user->loginUser($datos);
 
         if ($result) {
+
             $_SESSION['user'] = $result;
 
             header('Location: index.php?action=interfaz');
             exit;
+
         } else {
-            $_SESSION['errors'] = ['general' => 'Credenciales incorrectas'];
+
+            $_SESSION['errors'] = [
+                'general' => 'Credenciales incorrectas'
+            ];
 
             header('Location: index.php?action=getFormLoginUser');
             exit;
@@ -114,9 +147,8 @@ class AuthController {
     }
 
     
-
-    
     public function logoutUser() {
+
         session_destroy();
 
         header('Location: index.php?action=getFormLoginUser');

@@ -50,18 +50,33 @@ class Reserva {
 
     $this->conexion->query($sqlEstado);
 }
-    public function obtenerPorUsuario($user_id) {
+ public function obtenerPorUsuario($user_id) {
 
-        $sql = "SELECT r.id, r.fecha_inicio, r.fecha_final,
-                       h.numero_camas, c.nombre AS categoria
-                FROM reservas r
-                INNER JOIN habitaciones h ON r.habitacion_id = h.id
-                INNER JOIN categorias c ON h.categoria_id = c.id
-                WHERE r.user_id = '$user_id'";
+    $sql = "SELECT 
+                r.id,
+                r.fecha_inicio,
+                r.fecha_final,
+                h.numero_camas,
+                h.precio,
+                c.nombre AS categoria,
+                DATEDIFF(
+                    r.fecha_final,
+                    r.fecha_inicio
+                ) AS n_dias
+                 FROM reservas r
+                 INNER JOIN habitaciones h 
+                ON r.habitacion_id = h.id
+                 INNER JOIN categorias c 
+                ON h.categoria_id = c.id
 
-        $this->conexion->query($sql);
-        return $this->conexion->getResult()->fetch_all(MYSQLI_ASSOC);
-    }
+            WHERE r.user_id = '$user_id'";
+
+    $this->conexion->query($sql);
+
+    return $this->conexion
+    ->getResult()
+    ->fetch_all(MYSQLI_ASSOC);
+}
 
     public function eliminar($id) {
 

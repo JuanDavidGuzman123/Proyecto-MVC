@@ -2,6 +2,8 @@
 
 $nombreCliente = $nombreCliente ?? 'Usuario';
 
+$tipo = $tipo ?? 'reserva';
+
 ?>
 
 <!DOCTYPE html>
@@ -76,19 +78,43 @@ body{
 
     <div class="content">
 
-        <h2>
-            Hola <?= $nombreCliente ?> 👋
-        </h2>
+        <?php if($tipo == 'bienvenida'): ?>
 
-        <p>
-            Tu reserva fue confirmada correctamente.
-        </p>
+            <h2>
+                Bienvenido <?= $nombreCliente ?> 👋
+            </h2>
 
-        <p>
-            Gracias por elegir Hotel Villa Dorada.
-            Esperamos brindarte una experiencia
-            inolvidable.
-        </p>
+            <p>
+                Tu cuenta fue creada correctamente.
+            </p>
+
+            <p>
+                Ya puedes iniciar sesión y realizar
+                reservas en Hotel Villa Dorada.
+            </p>
+
+        <?php endif; ?>
+
+
+
+        <?php if($tipo == 'reserva'): ?>
+
+            <h2>
+                Hola <?= $nombreCliente ?> 👋
+            </h2>
+
+            <p>
+                Tu reserva fue confirmada correctamente.
+            </p>
+
+            <p>
+                Gracias por elegir Hotel Villa Dorada.
+                Esperamos brindarte una experiencia
+                inolvidable.
+            </p>
+
+        <?php endif; ?>
+
 
         <a
             href="http://localhost/MVCC/"

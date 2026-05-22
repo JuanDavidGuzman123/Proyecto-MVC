@@ -19,11 +19,14 @@ class CorreoController {
 
         $this->mail->SMTPAuth = true;
 
-        $this->mail->Username = 'juandavidguzman0612@gmail.com';
+        $this->mail->Username =
+        'juandavidguzman0612@gmail.com';
 
-        $this->mail->Password = 'nxye vyml lhlt drwm';
+        $this->mail->Password =
+        'nxye vyml lhlt drwm';
 
-        $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $this->mail->SMTPSecure =
+        PHPMailer::ENCRYPTION_STARTTLS;
 
         $this->mail->Port = 587;
 
@@ -49,6 +52,40 @@ class CorreoController {
             'Reserva Confirmada - Hotel Villa Dorada';
 
             $tipo = 'reserva';
+
+            $nombreCliente = $nombre;
+
+            ob_start();
+
+            include __DIR__ .
+            '/../views/reportes/email.php';
+
+            $contenido = ob_get_clean();
+
+            $this->mail->Body = $contenido;
+
+            $this->mail->send();
+
+        } catch (Exception $e) {
+
+            echo $this->mail->ErrorInfo;
+        }
+    }
+
+
+    
+    public function enviarBienvenida($destino, $nombre) {
+
+        try {
+
+            $this->mail->clearAddresses();
+
+            $this->mail->addAddress($destino, $nombre);
+
+            $this->mail->Subject =
+            'Bienvenido a Hotel Villa Dorada';
+
+            $tipo = 'bienvenida';
 
             $nombreCliente = $nombre;
 

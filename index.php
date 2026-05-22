@@ -10,7 +10,7 @@ require_once 'controllers/pdfController.php';
 require_once 'controllers/excelController.php';
 require_once 'controllers/correoController.php';
 
-// models
+// modelos
 require_once 'models/Conexion.php';
 require_once 'models/User.php';
 require_once 'models/Reserva.php';
